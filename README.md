@@ -43,8 +43,8 @@ Task A ──► [Condition] ──► Task B (if success)
   task execution is success or failure
 
   ### What Happens on Success / Failure
-  On task success/failure next task is picked based on the condition's
-  target_task_success/target_task_failure respectively and execution ends if no next task or end is mentioned. 
+  On task success/failure next task is picked based on the condition's required outcome
+  for target_task_success/target_task_failure and execution ends if no next task or end is mentioned. 
   
 
 ## ✨ Features
