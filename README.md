@@ -1,6 +1,6 @@
 # Flow Manager System
 
-A lightweight **Python-based workflow orchestrator** that executes tasks sequentially with conditional branching.  
+A lightweight **Python-based workflow system** that executes tasks sequentially.  
 Each task's result is evaluated against defined conditions to decide whether to proceed to the next task or terminate the flow early.
 
 Perfect for building business logic flows, ETL pipelines with conditions, approval workflows, or any process that needs dynamic decision points.
@@ -8,10 +8,9 @@ Perfect for building business logic flows, ETL pipelines with conditions, approv
 ## ✨ Features
 
 - Sequential task execution
-- Conditional branching based on task results
 - Clean separation of concerns (tasks, flows, schemas, endpoints)
 - Easy to extend with new tasks
-- REST API endpoints (using FastAPI – assumed from project structure)
+- REST API endpoints (using FastAPI)
 - Input/output schema validation
 - Unit tests ready structure
 
