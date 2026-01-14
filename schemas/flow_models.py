@@ -27,3 +27,9 @@ class Flow(BaseModel):
 
 class FlowRequest(BaseModel):
     flow: Flow
+
+
+class FlowExecutionResponse(BaseModel):
+    flow_id: str
+    response: bool
+    execution_log: List[str]

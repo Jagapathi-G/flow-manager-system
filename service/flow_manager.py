@@ -35,10 +35,10 @@ class FlowManager:
 
 
 def run_flow(flow):
-    manager = FlowManager(flow)
-    response = manager.execute()
+    flow_manager = FlowManager(flow)
+    response = flow_manager.execute()
     return {
-        "flow_id": manager.flow_id,
+        "flow_id": flow_manager.flow_id,
         "response": response,
-        "execution_log": manager.execution_log
+        "execution_log": flow_manager.execution_log
     }
