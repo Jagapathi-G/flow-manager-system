@@ -1,6 +1,6 @@
 # Flow Manager System
 
-A lightweight **Python-based workflow system** that executes tasks sequentially.  
+A lightweight **Python-based workflow manager system** that executes tasks sequentially.  
 Each task's result is evaluated against defined conditions to decide whether to proceed to the next task or terminate the flow early.
 
 Perfect for building business logic flows, ETL pipelines with conditions, approval workflows, or any process that needs dynamic decision points.
@@ -37,7 +37,101 @@ uvicorn main:app --reload
 ```
 
 4. (Expected) Open your browser at:
-- `http://127.0.0.1:8000`. → Interactive API documentation (Swagger)
+- `http://127.0.0.1:8000/docs`. → Interactive API documentation (Swagger)
+
+## Usage
+
+### API Endpoint
+- **Endpoint**: `POST /flow-manager/execute_flow`
+- **Parameters**:
+  - `flow` (json): json containing tasks and conditions
+#### Example Request
+```bash
+curl -X 'POST' \
+  'http://127.0.0.1:8000/flow-manager/execute_flow' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+   "flow":{
+      "id":"flow123",
+      "name":"Data processing flow",
+      "start_task":"task1",
+      "tasks":[
+         {
+            "name":"task1",
+            "description":"Fetch data"
+         },
+         {
+            "name":"task2",
+            "description":"Process data"
+         },
+         {
+            "name":"task3",
+            "description":"Store data"
+         }
+      ],
+      "conditions":[
+         {
+            "name":"condition_task1_result",
+            "description":"Evaluate the result of task1. If successful, proceed to task2; otherwise, end the flow.",
+            "source_task":"task1",
+            "outcome":"success",
+            "target_task_success":"task2",
+            "target_task_failure":"end"
+         },
+         {
+            "name":"condition_task2_result",
+            "description":"Evaluate the result of task2. If successful, proceed to task3; otherwise, end the flow.",
+            "source_task":"task2",
+            "outcome":"success",
+            "target_task_success":"task3",
+            "target_task_failure":"end"
+         }
+      ]
+   }
+}'
+```
+
+#### Example Response
+```json
+{
+  "flow_id": "flow123",
+  "response": true,
+  "execution_log": [
+    "Task 'task1' executed with result: True",
+    "Task 'task2' executed with result: True",
+    "Task 'task3' executed with result: True",
+    "Flow completed."
+  ]
+}
+```
+### API Endpoint
+- additional endpoint if flow is already stored and can be identified with flow_id. 
+- **Endpoint**: `POST /flow-manager/execute_flow`
+- **Parameters**:
+  - `flow_id` (string): flow_id of the stored json 
+#### Example Request
+```bash
+curl -X 'POST' \
+  'http://127.0.0.1:8000/flow-manager/execute_flow_with_id?flow_id=flow123' \
+  -H 'accept: application/json' \
+  -d ''
+```
+
+#### Example Response
+```json
+{
+  "flow_id": "flow123",
+  "response": true,
+  "execution_log": [
+    "Task 'task1' executed with result: True",
+    "Task 'task2' executed with result: True",
+    "Task 'task3' executed with result: True",
+    "Flow completed."
+  ]
+}
+```
+
 
 ## 🛠️ Tech Stack
 
@@ -51,12 +145,6 @@ uvicorn main:app --reload
 - Implement flow persistence (database storage)
 - Add retry mechanism & error handling policies
 - Flow visualization
-
-## Fork the Project
-- Create your Feature Branch (git checkout -b feature/amazing-feature)
-- Commit your Changes (git commit -m 'Add some amazing feature')
-- Push to the Branch (git push origin feature/amazing-feature)
-- Open a Pull Request
 
 ## 📄 License
 MIT License
